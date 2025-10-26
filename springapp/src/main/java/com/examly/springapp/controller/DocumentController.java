@@ -2,7 +2,6 @@ package com.examly.springapp.controller;
 
 import com.examly.springapp.model.Document;
 import com.examly.springapp.service.DocumentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,11 @@ import java.util.List;
 @CrossOrigin(originPatterns = "*")
 public class DocumentController {
     
-    @Autowired
-    private DocumentService documentService;
+    private final DocumentService documentService;
+    
+    public DocumentController(DocumentService documentService) {
+        this.documentService = documentService;
+    }
     
     @PostMapping("/upload")
     public ResponseEntity<String> uploadDocument(

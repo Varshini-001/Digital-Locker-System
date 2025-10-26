@@ -20,20 +20,20 @@ const DocumentList = () => {
     fetchDocuments();
   }, []);
 
-  if (loading) {
-    return <div className="documents-container">Loading documents...</div>;
-  }
-
   return (
     <div className="documents-container">
       <h2 className="documents-title">Document List</h2>
-      <ul className="documents-list">
-        {documents.map((doc, index) => (
-          <li key={index} className="document-item">
-            {doc.name || doc.filename}
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <div>Loading documents...</div>
+      ) : (
+        <ul className="documents-list">
+          {documents.map((doc, index) => (
+            <li key={index} className="document-item">
+              {doc.name || doc.filename}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
