@@ -2,7 +2,9 @@ package com.examly.springapp.controller;
 
 import com.examly.springapp.model.Document;
 import com.examly.springapp.service.DocumentService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,5 +41,29 @@ public class DocumentController {
     public ResponseEntity<List<Document>> getAllDocuments() {
         List<Document> documents = documentService.getAllDocuments();
         return ResponseEntity.ok(documents);
+    }
+    
+    @GetMapping("/view/{id}")
+    public ResponseEntity<byte[]> viewDocument(@PathVariable Long id) {
+        try {
+            Document document = documentService.getDocumentById(id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("inline", document.getFilename());
+            return ResponseEntity.ok().headers(headers).body(document.getFileData());
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteDocument(@PathVariable Long id) {
+        try {
+            documentService.deleteDocument(id);
+            return ResponseEntity.ok("Document deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Document not found");
+        }
     }
 }

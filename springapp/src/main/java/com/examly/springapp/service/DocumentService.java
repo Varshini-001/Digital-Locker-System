@@ -57,4 +57,8 @@ public class DocumentService {
     public List<Document> getDocumentsByEmail(String email) {
         return documentRepository.findByEmail(email);
     }
+    
+    public void deleteDocument(Long id) {
+        documentRepository.deleteById(id);
+    }
 }

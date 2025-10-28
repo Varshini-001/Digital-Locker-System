@@ -24,3 +24,16 @@ export const getDocuments = () => {
     headers: getAuthHeaders(),
   });
 };
+
+export const viewDocument = (id) => {
+  return axios.get(`${API_BASE}/view/${id}`, {
+    headers: getAuthHeaders(),
+    responseType: 'blob',
+  });
+};
+
+export const deleteDocument = (id) => {
+  return axios.delete(`${API_BASE}/delete/${id}`, {
+    headers: getAuthHeaders(),
+  });
+};
