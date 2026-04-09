@@ -1,0 +1,6 @@
+node_modules/
+reactapp/node_modules/
+springapp/target/
+springapp/data/
+*.log
+.env

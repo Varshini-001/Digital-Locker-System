@@ -48,8 +48,15 @@ public class DocumentController {
         try {
             Document document = documentService.getDocumentById(id);
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("inline", document.getFilename());
+            String filename = document.getFilename();
+            MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+            if (filename != null) {
+                if (filename.endsWith(".pdf")) mediaType = MediaType.valueOf("application/pdf");
+                else if (filename.endsWith(".png")) mediaType = MediaType.IMAGE_PNG;
+                else if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) mediaType = MediaType.IMAGE_JPEG;
+            }
+            headers.setContentType(mediaType);
+            headers.set("Content-Disposition", "inline; filename=\"" + filename + "\"");
             return ResponseEntity.ok().headers(headers).body(document.getFileData());
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

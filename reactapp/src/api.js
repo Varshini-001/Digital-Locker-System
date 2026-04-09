@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'https://8080-eabafdeaaedfdaeabecfcdcbcbcbccaa.premiumproject.examly.io/api/documents';
+const API_BASE = 'http://localhost:8080/api/documents';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
